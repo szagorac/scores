@@ -1,0 +1,1157 @@
+<? javascript
+
+var SERVER_ADDRESS = "192.168.0.8";
+var SERVER_PORT = "7777";
+
+var LOCAL_PORT = "7000";
+var LOCAL_OUT_PORT = "7001";
+
+var SPACE = " ";
+var EMPTY = "";
+var NL = "\n";
+var SEMICOLON = ";";
+var UNDERSCORE = "_";
+var PLUS = "+";
+var COMMA = ",";
+var SINGLE_QUOTE = "'";
+var DOT = ".";
+var SLASH = "/";
+var BASE_BEAT_FRACTION = "/8";
+var UNDEFINED = "undefined";
+
+var ALPHA = "alpha";
+var PEN_COLOR = "penColor";
+var PEN_WIDTH = "penWidth";
+var SHOW = "show";
+var COLOR = "color";
+var SET = "set";
+var FILE = "file";
+var TXT = "txt";
+var DATE = "date";
+var TEMPO = "tempo";
+var WRITE = "write";
+var ERROR = "ERROR: ";
+var AV = "AV";
+var FULL_SCORE = "FULLSCORE";
+
+var SZCORE = "SZCORE";
+var HELLO = "HELLO";
+var PING = "PING";
+var SET_INSTRUMENT = "SET_INSTRUMENT";
+var SELECT_ISLOT = "SELECT_ISLOT";
+
+var ITL_LOG = "/ITL/log";
+var STAVE1 = "/ITL/scene/stave";
+var STAVE2 = "/ITL/scene/stave2";
+var BEATER = "/ITL/scene/beater";
+var SCORE_FOLLOW_BEATER = "/ITL/scene/slaveBeat";
+var SCORE_FOLLOW_BEATER2 = "/ITL/scene/slaveBeat2";
+var SCORE_FOLLOW_LINE = "/ITL/scene/slaveFollow";
+var SCORE_FOLLOW_LINE2 = "/ITL/scene/slaveFollow2";
+var SCORE_START_MARK = "/ITL/scene/slaveStartMark";
+var SCORE_START_MARK2 = "/ITL/scene/slaveStartMark2";
+var STAVE_MASK = "/ITL/scene/staveMask";
+var STAVE2_MASK = "/ITL/scene/stave2Mask";
+var LOGGER = "/ITL/scene/logger";
+var CONNECT = "/ITL/scene/connect";
+var SERVER = "/ITL/scene/server";
+var TITLE = "/ITL/scene/title";
+var PART = "/ITL/scene/part";
+var SELECT_PART_LAYER = "/ITL/scene/selectPartLayer";
+var SCORE_SERVER_ADDR = "/ITL/scene/serverAddr";
+var SCORE_SERVER_ADDR_BOX = "/ITL/scene/serverAddrBox";
+var INST_SLOT_TXT = "/ITL/scene/instrumentSlot";
+var INST_SLOT_BOX = "/ITL/scene/instrumentSlotBox";
+var INST_SLOT_MASK = "/ITL/scene/instSlotMask";
+
+var RSRC_DIR = "rsrc/";
+
+var ACTIVE_PEN_COLOR = SPACE + PEN_COLOR + " 150 150 250;";
+var INACTIVE_PEN_COLOR = SPACE + PEN_COLOR + " 200 200 200;";
+var INST_SLOT_INACTIVE_PEN_COLOR = SPACE + PEN_COLOR + " 0 0 255 50;";
+var INST_SLOT_ACTIVE_PEN_COLOR = SPACE + PEN_COLOR + " 0 0 255 200;";
+
+var ZERO_PEN_WIDTH = SPACE + PEN_WIDTH + " 0.;";
+var ONE_PEN_WIDTH = SPACE + PEN_WIDTH + " 1.;";
+var TWO_PEN_WIDTH = SPACE + PEN_WIDTH + " 2.;";
+var ACTIVE_PEN_WIDTH = TWO_PEN_WIDTH;
+var INACTIVE_PEN_WIDTH = ONE_PEN_WIDTH;
+
+var ACTIVE_ALPHA = SPACE + ALPHA + " 0;";
+var INACTIVE_ALPHA = SPACE + ALPHA + " 80;";
+var VISIBLE_ALPHA = SPACE + ALPHA + " 255;";
+var INVISIBLE_ALPHA = SPACE + ALPHA + " 0;";
+var BEATER_ON = SHOW + " 1;";
+var BEATER_OFF = SHOW + " 0;";
+var COLOR_GREEN = COLOR + " 0 255 0 255;";
+var COLOR_RED = COLOR + " 255 0 0 255;";
+var COLOR_YELLOW = COLOR + " 255 255 0 255;";
+var COLOR_ORANGE = COLOR + " 255 153 0 255;";
+var COLOR_GRAY = COLOR + " 200 200 200 255;";
+var COLOR_WHITE = COLOR + " 255 255 255 255;";
+var COLOR_GRAY_TRANS = COLOR + " 200 200 200 50;";
+var DEFAULT_INST_Y = -0.6;
+var SHOW_SELECT_PART_LAYER = SELECT_PART_LAYER + " " + SHOW + " 1;";
+var HIDE_SELECT_PART_LAYER = SELECT_PART_LAYER + " " + SHOW + " 0;";
+
+var JS_RUN = "/ITL/scene/javascript run ";
+var DEFAULT_STAVE = "rsrc/blankStave.png";
+var DEFAULT_TITLE = "Zscore";
+var DEFAULT_PART = "Part";
+
+var CONNECTED_PREFIX = "'Connected to: ";
+var COMMAND_SUFFIX = "';";
+var SET_TXT_COMMAND = " set txt ";
+var CONNECT_SET_TXT = CONNECT + SET_TXT_COMMAND + CONNECTED_PREFIX;
+var SERVER_TXT = "'Server: ";
+var SERVER_SET_TXT = SERVER + SET_TXT_COMMAND + SERVER_TXT;
+var SERVER_ADDR_SET_TXT = SCORE_SERVER_ADDR + SET_TXT_COMMAND;
+var DATE_SET_TXT = SPACE + DATE + SPACE + SINGLE_QUOTE;
+var BB_FRACTION_TXT = BASE_BEAT_FRACTION + SINGLE_QUOTE + SEMICOLON;
+var TEMPO_SET_TXT = SPACE + TEMPO + SPACE;
+var PING_TXT = SPACE + PING + SPACE + "'";
+
+var INST_SLOT_NO = 4;
+
+var instX = 0.0;
+var instY = DEFAULT_INST_Y;
+var instZ = 10.0;
+var instTxtScale = 2.0;
+var deltaInstY = 0.2;
+var inactiveColor = "100 0 0";
+var activeColor = "255 0 0";
+var DEFAULT_INST_Y = -0.6;
+
+var instruments = [];
+var instControls = [];
+var instControlIdx = 0;
+var instrumentSlots = [INST_SLOT_NO];
+var instSlotControls = [];
+var instSlotControlIdx = 0;
+var thisInstrument = "";
+
+var connectAddr = SERVER_ADDRESS + ":" + SERVER_PORT + SLASH + SZCORE;
+var serverAddress;
+
+var activeStave = STAVE1;
+var currentTempo = 0;
+
+var maxBeaterNo = 4;
+
+var os = osname();
+var isMobile = (os == "Android" || os == "iOS");
+
+function isArray(obj) {
+    return Object.prototype.toString.call(obj) === '[object Array]';
+};
+function logError(value) {
+    logItl(ERROR + value);
+}
+function log(value) {
+    logItl(value);
+}
+function logItl(value) {
+    if (!value) {
+        return;
+    }
+    post(ITL_LOG, WRITE, value);
+}
+function logArray(arr) {
+    if (!arr || !isArray(arr)) {
+        return;
+    }
+    var out = "";
+    for (var i = 0; i < arr.length; i++) {
+        out += arr[i] + NL;
+    }
+    post(LOGGER, SET, TXT, out);
+}
+function logArrayItl(arr) {
+    if (!arr || !isArray(arr)) {
+        return;
+    }
+    for (var i = 0; i < arr.length; i++) {
+        logItl(arr[i]);
+    }   
+}
+function activateStave1() {
+    return activate(STAVE1);
+}
+function activateStave2() {
+    return activate(STAVE2);
+}
+function deactivateStave1() {
+    return deactivate(STAVE1);
+}
+function deactivateStave2() {
+    return deactivate(STAVE2);
+}
+function allBeatersOff() {
+    return beatersOff(this.maxBeaterNo);
+}
+function allBeatersOn() {
+    return beatersOn(this.maxBeaterNo);
+}
+function beatersOn(beaterNo, colourId) {
+
+    if (beaterNo <= 0 || beaterNo > maxBeaterNo) {
+        return;
+    }
+
+    var colour = getColour(colourId);
+
+    var out = [];
+    for (var i = 1; i <= beaterNo; i++) {
+        out.push(BEATER + i + SPACE + BEATER_ON);
+        out.push(BEATER + i + SPACE + colour);
+    }
+    return out;
+}
+function beatersOff(beaterNo) {
+
+    if (beaterNo <= 0 || beaterNo > maxBeaterNo) {
+        return;
+    }
+
+    var out = [];
+    for (var i = 1; i <= beaterNo; i++) {
+        out.push(BEATER + i + SPACE + BEATER_OFF);
+    }
+    //    log(msg);
+    return out;
+}
+function getColour(colourId) {
+    if (!colourId) {
+        colourId = 1;
+    }
+
+    var colour;
+    switch (colourId) {
+        case 4:
+            colour = COLOR_RED;
+            break;
+        case 3:
+            colour = COLOR_ORANGE;
+            break;
+        case 2:
+            colour = COLOR_YELLOW;
+            break;
+        case 1:
+        default:
+            colour = COLOR_GREEN;
+    }
+    return colour;
+}
+function activate(stave) {
+    //    log("activate stave: " + stave);
+    var mask = getMask(stave);
+    if (!mask) {
+        return;
+    }
+
+    activeStave = stave;
+    log("activeStave: " + activeStave);
+    var out = setStaveTempo(stave, currentTempo);
+    if (!out) {
+        out = [];
+    }
+
+    out.push(mask + ACTIVE_ALPHA);
+    out.push(mask + ACTIVE_PEN_COLOR);
+    out.push(mask + ACTIVE_PEN_WIDTH);
+    //    log("msg: " + msg);
+    return out;
+}
+function resetStave(stave) {
+    deactivate(stave);
+    post(stave, SET, FILE, DEFAULT_STAVE);
+}
+function resetTitle() {
+    post(TITLE, SET, TXT, DEFAULT_TITLE);
+}
+function resetPart() {
+    post(PART, SET, TXT, DEFAULT_PART);
+}
+function showSelectPartLayer() {
+    post(SELECT_PART_LAYER, SHOW, 1);
+}
+function hideSelectPartLayer() {
+    post(SELECT_PART_LAYER, SHOW, 0);
+}
+function setNoMask() {
+    post(STAVE2_MASK, "alpha", 0);
+}
+function deactivate(stave) {
+    var mask = getMask(stave);
+    if (!mask) {
+        return;
+    }
+
+    var out = setStaveTempo(stave, 0);
+    if (!out) {
+        out = [];
+    }
+    out.push(mask + INACTIVE_ALPHA);
+    out.push(mask + INACTIVE_PEN_COLOR);
+    out.push(mask + INACTIVE_PEN_WIDTH);
+    //    log("msg: " + msg);
+    return out;
+}
+function getMask(stave) {
+    var mask;
+    switch (stave) {
+        case STAVE1:
+            mask = STAVE_MASK;
+            break;
+        case STAVE2:
+            mask = STAVE2_MASK;
+            break;
+    }
+    return mask;
+}
+function getFollowBeater(staveId) {
+    var followBeater;
+    switch (staveId) {
+        case 1:
+            followBeater = SCORE_FOLLOW_BEATER;
+            break;
+        case 2:
+            followBeater = SCORE_FOLLOW_BEATER2;
+            break;
+    }
+    return followBeater;
+}
+function getFollowLine(staveId) {
+    var followLine;
+    switch (staveId) {
+        case 1:
+            followLine = SCORE_FOLLOW_LINE;
+            break;
+        case 2:
+            followLine = SCORE_FOLLOW_LINE2;
+            break;
+    }
+    //    log("getFollowLine staveId: " + staveId + " followLine: " + followLine);
+    return followLine;
+}
+function setDate(staveId, beatNo) {
+    //    log("sendDate stave: " + staveId + " beatNo: " + beatNo);
+    var followBeater = getFollowBeater(staveId);
+    var followLine = getFollowLine(staveId);
+
+    var out = [];
+    out.push(followBeater + DATE_SET_TXT + beatNo + BB_FRACTION_TXT);
+    out.push(followLine + DATE_SET_TXT + beatNo + BB_FRACTION_TXT);
+    return out;
+}
+function getStaveId(stave) {
+    var staveId = 1;
+    if (stave === STAVE2) {
+        staveId = 2;
+    }
+    return staveId;
+}
+function setStaveTempo(stave, tempo) {
+
+    var staveId = getStaveId(stave);
+    var out = [];
+
+    var followLine = getFollowLine(staveId);
+    if (followLine) {
+        out.push(followLine + TEMPO_SET_TXT + tempo + SEMICOLON);
+    }
+    var followBeater = getFollowBeater(staveId);
+    if (followBeater) {
+        out.push(followBeater + TEMPO_SET_TXT + tempo + SEMICOLON);
+    }
+    //    logArray(out);
+    return out;
+}
+function endsWith(str, suffix) {
+    if (!str || !suffix || suffix.length > str.length) {
+        return false;
+    }
+
+    return str.slice(-1 * suffix.length) === suffix;
+};
+function removeLastChar(str) {
+    if (!str || str.length < 2) {
+        return str;
+    }
+    return str.substring(0, (str.length - 1));
+}
+function serverHello(addr) {
+    serverAddress = addr;
+    var out = [];
+    //out.push(SERVER_ADDR_SET_TXT + addr + COMMAND_SUFFIX);
+    out.push(SCORE_SERVER_ADDR_BOX + SPACE + COLOR_GREEN);
+    return out;
+}
+function onServerAddrChange(addr) {
+    if (!addr || addr.length < 5) {
+        log("Invalid server Address: " + addr);
+        return false;
+    }
+    SERVER_ADDRESS = addr.slice(4);
+    connectAddr = SERVER_ADDRESS + ":" + SERVER_PORT + SLASH + SZCORE;
+    log("connectAddr:  " + connectAddr);
+    sendHello();
+}
+function ping(serverTime) {
+    var msg = connectAddr + PING_TXT + serverTime + COMMAND_SUFFIX;
+    //log(msg);
+    return msg;
+    // post(connectAddr, PING, serverTime);
+}
+function setTitle(title) {
+    var out = TITLE + " set txt '" + title + "';";
+    return out;
+}
+function setPart(part) {
+    var out = PART + " set txt '" + part + "';";
+    thisInstrument = part;
+    return out;
+}
+function sendHello() {
+    log("Connecting to " + connectAddr);
+    post(connectAddr, HELLO, LOCAL_PORT, LOCAL_OUT_PORT);
+}
+function setInstrument(idx) {
+    hideSelectPartLayer();
+    if (idx < 0 || idx >= instruments.length) {
+        log("Invalid index: " + idx);
+        return;
+    }
+    var inst = instruments[idx];
+    log("Sending instrument to " + inst);
+    post(connectAddr, SET_INSTRUMENT, inst);
+}
+function logInstrument(idx) {
+    if (idx < 0 || idx >= instruments.length) {
+        log("Invalid index: " + idx);
+        return;
+    }
+    var inst = instruments[idx];
+    log("Selected instrument: " + inst + " idx: " + idx);
+}
+function addInstrument(name) {
+    var idx = instruments.indexOf(name);
+    if (idx < 0) {
+        instruments.push(name);
+    } else {
+        log("Already Have instrument: " + name);
+        return instControls;
+    }
+
+    idx = instruments.indexOf(name);
+
+    instY += deltaInstY;
+
+    var controlName = name.replace(SPACE, UNDERSCORE);
+
+    var instTxt = "/ITL/scene/selectPartLayer/inst" + controlName;
+    instControls[instControlIdx++] = instTxt + " set txt '" + name + "';";
+    instControls[instControlIdx++] = instTxt + " x " + instX + ";";
+    instControls[instControlIdx++] = instTxt + " y " + instY + ";";
+    instControls[instControlIdx++] = instTxt + " z " + instZ + ";";
+    instControls[instControlIdx++] = instTxt + " scale " + instTxtScale + ";";
+    instControls[instControlIdx++] = instTxt + " watch mouseEnter ( " + instTxt + " color " + activeColor + " );";
+    instControls[instControlIdx++] = instTxt + " watch mouseLeave ( " + instTxt + " color " + inactiveColor + " );";
+    instControls[instControlIdx++] = instTxt + " watch mouseUp ( " + JS_RUN + " 'setInstrument(" + idx + ")' );";
+
+    return instControls;
+}
+function setInstrumentSlots(csvInstruments) {
+    if (!csvInstruments) {
+        return;
+    }
+
+    var instNameArr = convertCsvToArr(csvInstruments);
+    if (!instNameArr) {
+        return;
+    }
+
+    for (var i = 0; i < INST_SLOT_NO; i++) {
+        var inst = null;
+        if (i < instNameArr.length) {
+            inst = instNameArr[i].trim();            
+        }
+        instrumentSlots[i] = inst;
+    }
+
+    return processInstrumentSlots();
+}
+function processInstrumentSlots() {
+    instSlotControls = [];
+    instSlotControlIdx = 0;
+    for (var i = 0; i < INST_SLOT_NO; i++) {     
+        var inst = instrumentSlots[i];
+        var instIdx = i + 1;
+        var instSlotTxt = INST_SLOT_TXT + instIdx;
+        var instSlotBox = INST_SLOT_BOX + instIdx;
+        if( isNull(inst) ) {
+            instSlotControls[instSlotControlIdx++] = instSlotTxt + " set txt '';";
+            instSlotControls[instSlotControlIdx++] = instSlotBox + SPACE + COLOR_GRAY;
+            instSlotControls[instSlotControlIdx++] = instSlotBox + ZERO_PEN_WIDTH;
+        } else {
+            instSlotControls[instSlotControlIdx++] = instSlotTxt + " set txt '" + inst + "';";
+            instSlotControls[instSlotControlIdx++] = instSlotBox + SPACE + COLOR_WHITE;
+            instSlotControls[instSlotControlIdx++] = instSlotBox + ONE_PEN_WIDTH;
+        }
+    }
+    instSlotControls[instSlotControlIdx++] = INST_SLOT_MASK + SPACE + COLOR_GRAY_TRANS;
+    instSlotControls[instSlotControlIdx++] = INST_SLOT_MASK + INST_SLOT_ACTIVE_PEN_COLOR;
+    return instSlotControls;
+}
+function selectInstrumentSlot(slotNo) {
+    if(slotNo >= INST_SLOT_NO) {
+        return;
+    }
+    var inst = instrumentSlots[slotNo];
+    if( isNull(inst) ) {
+        log('Slot is not active, ignoring select instrument slotNo: ' + slotNo);
+        return;
+    }
+
+    log('Received selectInstrument slotNo: ' + slotNo + ', inst: ' + inst + ', thisInstrument: ' + thisInstrument);
+
+    post(connectAddr, SELECT_ISLOT, slotNo, inst, thisInstrument);
+}
+function resetInstrumentSlots() {
+    instSlotControls = [];
+    instSlotControlIdx = 0;
+    for (var i = 0; i < INST_SLOT_NO; i++) {     
+        instrumentSlots[i] = null;
+        var instIdx = i + 1;
+        var instSlotTxt = INST_SLOT_TXT + instIdx;
+        var instSlotBox = INST_SLOT_BOX + instIdx;
+        instSlotControls[instSlotControlIdx++] = instSlotTxt + " set txt '';";
+        instSlotControls[instSlotControlIdx++] = instSlotBox + SPACE + COLOR_GRAY_TRANS;
+        instSlotControls[instSlotControlIdx++] = instSlotBox + ZERO_PEN_WIDTH;
+    }
+    instSlotControls[instSlotControlIdx++] = INST_SLOT_MASK + INST_SLOT_INACTIVE_PEN_COLOR;
+    return instSlotControls;
+}
+function setInstruments(csvInstruments) {
+    if (!csvInstruments) {
+        return;
+    }
+
+    instControls = [];
+    instruments = [];
+    instY = DEFAULT_INST_Y;
+
+    var instNameArr = convertCsvToArr(csvInstruments);
+
+    var highInstArr = [];
+    var lowInstArr = [];
+    for (var i = 0; i < instNameArr.length; i++) {
+        var inst = instNameArr[i]
+        var upperInst = inst.toUpperCase();
+        switch(upperInst) {
+            case AV:                
+            case FULL_SCORE:
+                lowInstArr.push(inst);
+                break;
+            default:
+                highInstArr.push(inst);
+        }
+    }
+    instNameArr = highInstArr.concat(lowInstArr);
+
+    for (var i = 0; i < instNameArr.length; i++) {
+        addInstrument(instNameArr[i]);
+    }
+
+    showSelectPartLayer();
+
+    return instControls;
+}
+function convertCsvToArr(csvStr) {
+    if (!csvStr) {
+        return [];
+    }
+
+    return csvStr.split(COMMA);
+}
+function resetScore() {
+    resetStave(STAVE1);
+    resetStave(STAVE2);
+    resetTitle();
+    resetPart();
+}
+function resetStaves() {
+    resetStave(STAVE1);
+    resetStave(STAVE2);
+}
+function setTempo(tempo) {
+    log("setting tempo: " + tempo);
+    currentTempo = tempo;
+    return setStaveTempo(activeStave, tempo);
+}
+function stop() {
+    out = [];
+    currentTempo = 0;
+    var tp = setStaveTempo(STAVE1, 0);
+    if (tp) {
+        out = out.concat(tp);
+    }
+    var tp2 = setStaveTempo(STAVE2, 0);
+    if (tp2) {
+        out = out.concat(tp2);
+    }
+    var staveId = getStaveId(STAVE1);
+    var dt = setDate(staveId, "0");
+    if (dt) {
+        out = out.concat(dt);
+    }
+    var staveId2 = getStaveId(STAVE2);
+    var dt2 = setDate(staveId2, "0");
+    if (dt2) {
+        out = out.concat(dt2);
+    }
+    var bOff = allBeatersOff();
+    if (bOff) {
+        out = out.concat(bOff);
+    }
+    var bOn = beatersOn(1, 4);
+    if (bOn) {
+        out = out.concat(bOn);
+    }
+    // logArrayItl(out);
+    return out;
+}
+function showTop(colour, gradient, length) {
+    log("Received showTop  colour: " + colour + " gradient: " + gradient + " length: " + length);
+}
+function setServerIp(serverIp) {
+    post(SCORE_SERVER_ADDR, "set", "txt", serverIp);
+}
+function isUndefined(val) {
+    return typeof val == UNDEFINED;
+}
+function isNull(val) {
+    return isUndefined(val) || val === null;
+}
+//  ########################## END JS ##############################
+?>
+
+/ITL/scene/* del;
+/ITL/scene color 255 255 255 255;
+/ITL/log show 1;
+
+/ITL/scene/title set txt "Zscore";
+/ITL/scene/title x 0.0;
+/ITL/scene/title y -0.9;
+/ITL/scene/title z 3.0;
+/ITL/scene/title scale 3.0;
+
+/ITL/scene/part set txt "Part";
+/ITL/scene/part x 0.0;
+/ITL/scene/part y -0.8;
+/ITL/scene/part scale 1.5;
+
+/ITL/scene/stave set file 'rsrc/cp.png';
+/ITL/scene/stave x 0.0;
+/ITL/scene/stave y -0.375;
+/ITL/scene/stave scale 1.4;
+/ITL/scene/stave z 1.0;
+/ITL/scene/stave show 1;
+
+/ITL/scene/staveMask set 'rect' -10.0 0.71;
+/ITL/scene/staveMask x 0.0;
+/ITL/scene/staveMask y -0.39;
+/ITL/scene/staveMask z 5.0;
+/ITL/scene/staveMask scale 1.0;
+/ITL/scene/staveMask color 255 255 255 0;
+/ITL/scene/staveMask penColor 150 150 250;
+/ITL/scene/staveMask penWidth 2.;
+
+/ITL/scene/stave2 set file 'rsrc/cp.png';
+/ITL/scene/stave2 x 0.0;
+/ITL/scene/stave2 y 0.415;
+/ITL/scene/stave2 scale 1.4;
+/ITL/scene/stave2 z 1.0;
+/ITL/scene/stave2 show 1;
+
+/ITL/scene/stave2Mask  set 'rect' -10.0 0.71;
+/ITL/scene/stave2Mask x 0.0;
+/ITL/scene/stave2Mask y 0.4;
+/ITL/scene/stave2Mask z 5.0;
+/ITL/scene/stave2Mask scale 1.0;
+/ITL/scene/stave2Mask color 255 255 255 80;
+/ITL/scene/stave2Mask penColor 200 200 200;
+/ITL/scene/stave2Mask penWidth 1.;
+
+/ITL/scene/dynStaveBox set 'rect' 2.256 0.08;
+/ITL/scene/dynStaveBox color 255 255 255 0;
+/ITL/scene/dynStaveBox x 0.044;
+/ITL/scene/dynStaveBox y -0.077;
+/ITL/scene/dynStaveBox z 3.0;
+/ITL/scene/dynStaveBox penColor 0 0 0;
+/ITL/scene/dynStaveBox penWidth 0.5;
+
+/ITL/scene/dynStaveMidLine set 'line' xy 2.256 0.0;
+/ITL/scene/dynStaveMidLine x 0.044;
+/ITL/scene/dynStaveMidLine y -0.077;
+/ITL/scene/dynStaveMidLine z 4.0;
+/ITL/scene/dynStaveMidLine penColor 100 100 100;
+/ITL/scene/dynStaveMidLine penAlpha 0;
+/ITL/scene/dynStaveMidLine penStyle dash;
+/ITL/scene/dynStaveMidLine penWidth 1.0;
+
+/ITL/scene/dynStaveValueLine set 'line' xy 2.256 0.0;
+/ITL/scene/dynStaveValueLine x 0.044;
+/ITL/scene/dynStaveValueLine y -0.077;
+/ITL/scene/dynStaveValueLine z 4.0;
+/ITL/scene/dynStaveValueLine penColor 193 39 45;
+/ITL/scene/dynStaveValueLine penAlpha 0;
+/ITL/scene/dynStaveValueLine penStyle solid;
+/ITL/scene/dynStaveValueLine penWidth 2.0;
+
+/ITL/scene/contentStaveBox set 'rect' 2.258 0.25;
+/ITL/scene/contentStaveBox color 255 255 255 0;
+/ITL/scene/contentStaveBox x 0.042;
+/ITL/scene/contentStaveBox y -0.245;
+/ITL/scene/contentStaveBox z 3.0;
+/ITL/scene/contentStaveBox penColor 0 0 0;
+/ITL/scene/contentStaveBox penWidth 0.5;
+
+/ITL/scene/contentStaveValueLine set 'line' xy 2.258 0.0;
+/ITL/scene/contentStaveValueLine x 0.042;
+/ITL/scene/contentStaveValueLine y -0.245;
+/ITL/scene/contentStaveValueLine z 4.0;
+/ITL/scene/contentStaveValueLine penColor 0 0 0;
+/ITL/scene/contentStaveValueLine penAlpha 0;
+/ITL/scene/contentStaveValueLine penStyle solid;
+/ITL/scene/contentStaveValueLine penWidth 4.0;
+
+/ITL/scene/pressureStaveBox set 'rect' 2.258 0.055;
+/ITL/scene/pressureStaveBox color 255 255 255 0;
+/ITL/scene/pressureStaveBox x 0.041;
+/ITL/scene/pressureStaveBox y -0.4;
+/ITL/scene/pressureStaveBox z 3.0;
+/ITL/scene/pressureStaveBox penColor 0 0 0;
+/ITL/scene/pressureStaveBox penWidth 0.5;
+
+/ITL/scene/pressureStaveMidLine set 'line' xy 2.258 0.0;
+/ITL/scene/pressureStaveMidLine x 0.041;
+/ITL/scene/pressureStaveMidLine y -0.4;
+/ITL/scene/pressureStaveMidLine z 4.0;
+/ITL/scene/pressureStaveMidLine penColor 100 100 100;
+/ITL/scene/pressureStaveMidLine penAlpha 0;
+/ITL/scene/pressureStaveMidLine penStyle dash;
+/ITL/scene/pressureStaveMidLine penWidth 1.0;
+
+/ITL/scene/pressureStaveValueLine set 'line' xy 2.256 0.0;
+/ITL/scene/pressureStaveValueLine x 0.041;
+/ITL/scene/pressureStaveValueLine y -0.4;
+/ITL/scene/pressureStaveValueLine z 4.0;
+/ITL/scene/pressureStaveValueLine penColor 200 200 200;
+/ITL/scene/pressureStaveValueLine penAlpha 0;
+/ITL/scene/pressureStaveValueLine penStyle solid;
+/ITL/scene/pressureStaveValueLine penWidth 3.0;
+
+/ITL/scene/speedStaveBox set 'rect' 2.258 0.055;
+/ITL/scene/speedStaveBox color 255 255 255 0;
+/ITL/scene/speedStaveBox x 0.041;
+/ITL/scene/speedStaveBox y -0.457;
+/ITL/scene/speedStaveBox z 3.0;
+/ITL/scene/speedStaveBox penColor 0 0 0;
+/ITL/scene/speedStaveBox penWidth 0.5;
+
+/ITL/scene/speedStaveMidLine set 'line' xy 2.258 0.0;
+/ITL/scene/speedStaveMidLine x 0.041;
+/ITL/scene/speedStaveMidLine y -0.457;
+/ITL/scene/speedStaveMidLine z 4.0;
+/ITL/scene/speedStaveMidLine penColor 100 100 100;
+/ITL/scene/speedStaveMidLine penAlpha 0;
+/ITL/scene/speedStaveMidLine penStyle dash;
+/ITL/scene/speedStaveMidLine penWidth 1.0;
+
+/ITL/scene/speedStaveValueLine set 'line' xy 2.258 0.0;
+/ITL/scene/speedStaveValueLine x 0.041;
+/ITL/scene/speedStaveValueLine y -0.457;
+/ITL/scene/speedStaveValueLine z 4.0;
+/ITL/scene/speedStaveValueLine penColor 0 113 188;
+/ITL/scene/speedStaveValueLine penAlpha 0;
+/ITL/scene/speedStaveValueLine penStyle solid;
+/ITL/scene/speedStaveValueLine penWidth 1.0;
+
+/ITL/scene/positionStaveBox set 'rect' 2.258 0.135;
+/ITL/scene/positionStaveBox color 255 255 255 0;
+/ITL/scene/positionStaveBox x 0.041;
+/ITL/scene/positionStaveBox y -0.555;
+/ITL/scene/positionStaveBox z 3.0;
+/ITL/scene/positionStaveBox penColor 0 0 0;
+/ITL/scene/positionStaveBox penWidth 0.5;
+
+/ITL/scene/positionStaveOrdLine set 'line' xy 2.258 0.0;
+/ITL/scene/positionStaveOrdLine x 0.041;
+/ITL/scene/positionStaveOrdLine y -0.528;
+/ITL/scene/positionStaveOrdLine z 4.0;
+/ITL/scene/positionStaveOrdLine penColor 100 100 100;
+/ITL/scene/positionStaveOrdLine penAlpha 0;
+/ITL/scene/positionStaveOrdLine penStyle dash;
+/ITL/scene/positionStaveOrdLine penWidth 1.0;
+
+/ITL/scene/positionStaveBridgeLine set 'line' xy 2.258 0.0;
+/ITL/scene/positionStaveBridgeLine x 0.041;
+/ITL/scene/positionStaveBridgeLine y -0.574;
+/ITL/scene/positionStaveBridgeLine z 4.0;
+/ITL/scene/positionStaveBridgeLine penColor 200 0 0;
+/ITL/scene/positionStaveBridgeLine penAlpha 0;
+/ITL/scene/positionStaveBridgeLine penStyle dash;
+/ITL/scene/positionStaveBridgeLine penWidth 1.0;
+
+/ITL/scene/positionStaveValueLine set 'line' xy 2.258 0.0;
+/ITL/scene/positionStaveValueLine x 0.041;
+/ITL/scene/positionStaveValueLine y -0.492;
+/ITL/scene/positionStaveValueLine z 4.0;
+/ITL/scene/positionStaveValueLine penColor 102 45 145;
+/ITL/scene/positionStaveValueLine penAlpha 0;
+/ITL/scene/positionStaveValueLine penStyle solid;
+/ITL/scene/positionStaveValueLine penWidth 4.0;
+
+/ITL/scene/dynStaveBox2 set 'rect' 2.256 0.08;
+/ITL/scene/dynStaveBox2 color 255 255 255 0;
+/ITL/scene/dynStaveBox2 x 0.044;
+/ITL/scene/dynStaveBox2 y 0.713;
+/ITL/scene/dynStaveBox2 z 3.0;
+/ITL/scene/dynStaveBox2 penColor 0 0 0;
+/ITL/scene/dynStaveBox2 penWidth 0.5;
+
+/ITL/scene/dynStaveMidLine2 set 'line' xy 2.256 0.0;
+/ITL/scene/dynStaveMidLine2 x 0.044;
+/ITL/scene/dynStaveMidLine2 y 0.713;
+/ITL/scene/dynStaveMidLine2 z 4.0;
+/ITL/scene/dynStaveMidLine2 penColor 100 100 100;
+/ITL/scene/dynStaveMidLine2 penAlpha 0;
+/ITL/scene/dynStaveMidLine2 penStyle dash;
+/ITL/scene/dynStaveMidLine2 penWidth 1.0;
+
+/ITL/scene/dynStaveValueLine2 set 'line' xy 2.256 0.0;
+/ITL/scene/dynStaveValueLine2 x 0.044;
+/ITL/scene/dynStaveValueLine2 y 0.676;
+/ITL/scene/dynStaveValueLine2 z 4.0;
+/ITL/scene/dynStaveValueLine2 penColor 193 39 45;
+/ITL/scene/dynStaveValueLine2 penAlpha 0;
+/ITL/scene/dynStaveValueLine2 penStyle solid;
+/ITL/scene/dynStaveValueLine2 penWidth 1.0;
+
+/ITL/scene/contentStaveBox2 set 'rect' 2.258 0.25;
+/ITL/scene/contentStaveBox2 color 255 255 255 0;
+/ITL/scene/contentStaveBox2 x 0.043;
+/ITL/scene/contentStaveBox2 y 0.545;
+/ITL/scene/contentStaveBox2 z 3.0;
+/ITL/scene/contentStaveBox2 penColor 0 0 0;
+/ITL/scene/contentStaveBox2 penWidth 0.5;
+
+/ITL/scene/contentStaveValueLine2 set 'line' xy 2.258 0.0;
+/ITL/scene/contentStaveValueLine2 x 0.043;
+/ITL/scene/contentStaveValueLine2 y 0.545;
+/ITL/scene/contentStaveValueLine2 z 4.0;
+/ITL/scene/contentStaveValueLine2 penColor 0 0 0;
+/ITL/scene/contentStaveValueLine2 penAlpha 0;
+/ITL/scene/contentStaveValueLine2 penStyle solid;
+/ITL/scene/contentStaveValueLine2 penWidth 4.0;
+
+/ITL/scene/pressureStaveBox2 set 'rect' 2.258 0.055;
+/ITL/scene/pressureStaveBox2 color 255 255 255 0;
+/ITL/scene/pressureStaveBox2 x 0.042;
+/ITL/scene/pressureStaveBox2 y 0.391;
+/ITL/scene/pressureStaveBox2 z 3.0;
+/ITL/scene/pressureStaveBox2 penColor 0 0 0;
+/ITL/scene/pressureStaveBox2 penWidth 0.5;
+
+/ITL/scene/pressureStaveMidLine2 set 'line' xy 2.258 0.0;
+/ITL/scene/pressureStaveMidLine2 x 0.042;
+/ITL/scene/pressureStaveMidLine2 y 0.391;
+/ITL/scene/pressureStaveMidLine2 z 4.0;
+/ITL/scene/pressureStaveMidLine2 penColor 100 100 100;
+/ITL/scene/pressureStaveMidLine2 penAlpha 0;
+/ITL/scene/pressureStaveMidLine2 penStyle dash;
+/ITL/scene/pressureStaveMidLine2 penWidth 1.0;
+
+/ITL/scene/pressureStaveValueLine2 set 'line' xy 2.258 0.0;
+/ITL/scene/pressureStaveValueLine2 x 0.042;
+/ITL/scene/pressureStaveValueLine2 y 0.391;
+/ITL/scene/pressureStaveValueLine2 z 4.0;
+/ITL/scene/pressureStaveValueLine2 penColor 200 200 200;
+/ITL/scene/pressureStaveValueLine2 penAlpha 0;
+/ITL/scene/pressureStaveValueLine2 penStyle solid;
+/ITL/scene/pressureStaveValueLine2 penWidth 3.0;
+
+/ITL/scene/speedStaveBox2 set 'rect' 2.258 0.055;
+/ITL/scene/speedStaveBox2 color 255 255 255 0;
+/ITL/scene/speedStaveBox2 x 0.041;
+/ITL/scene/speedStaveBox2 y 0.334;
+/ITL/scene/speedStaveBox2 z 3.0;
+/ITL/scene/speedStaveBox2 penColor 0 0 0;
+/ITL/scene/speedStaveBox2 penWidth 0.5;
+
+/ITL/scene/speedStaveMidLine2 set 'line' xy 2.258 0.0;
+/ITL/scene/speedStaveMidLine2 x 0.041;
+/ITL/scene/speedStaveMidLine2 y 0.334;
+/ITL/scene/speedStaveMidLine2 z 4.0;
+/ITL/scene/speedStaveMidLine2 penColor 100 100 100;
+/ITL/scene/speedStaveMidLine2 penAlpha 0;
+/ITL/scene/speedStaveMidLine2 penStyle dash;
+/ITL/scene/speedStaveMidLine2 penWidth 1.0;
+
+/ITL/scene/speedStaveValueLine2 set 'line' xy 2.258 0.0;
+/ITL/scene/speedStaveValueLine2 x 0.041;
+/ITL/scene/speedStaveValueLine2 y 0.334;
+/ITL/scene/speedStaveValueLine2 z 4.0;
+/ITL/scene/speedStaveValueLine2 penColor 0 113 188;
+/ITL/scene/speedStaveValueLine2 penAlpha 0;
+/ITL/scene/speedStaveValueLine2 penStyle solid;
+/ITL/scene/speedStaveValueLine2 penWidth 1.0;
+
+/ITL/scene/positionStaveBox2 set 'rect' 2.258 0.135;
+/ITL/scene/positionStaveBox2 color 255 255 255 0;
+/ITL/scene/positionStaveBox2 x 0.041;
+/ITL/scene/positionStaveBox2 y 0.236;
+/ITL/scene/positionStaveBox2 z 3.0;
+/ITL/scene/positionStaveBox2 penColor 0 0 0;
+/ITL/scene/positionStaveBox2 penWidth 0.5;
+
+/ITL/scene/positionStaveOrdLine2 set 'line' xy 2.258 0.0;
+/ITL/scene/positionStaveOrdLine2 x 0.041;
+/ITL/scene/positionStaveOrdLine2 y 0.262;
+/ITL/scene/positionStaveOrdLine2 z 4.0;
+/ITL/scene/positionStaveOrdLine2 penColor 100 100 100;
+/ITL/scene/positionStaveOrdLine2 penAlpha 0;
+/ITL/scene/positionStaveOrdLine2 penStyle dash;
+/ITL/scene/positionStaveOrdLine2 penWidth 1.0;
+
+/ITL/scene/positionStaveBridgeLine2 set 'line' xy 2.258 0.0;
+/ITL/scene/positionStaveBridgeLine2 x 0.041;
+/ITL/scene/positionStaveBridgeLine2 y 0.216;
+/ITL/scene/positionStaveBridgeLine2 z 4.0;
+/ITL/scene/positionStaveBridgeLine2 penColor 200 0 0;
+/ITL/scene/positionStaveBridgeLine2 penAlpha 0;
+/ITL/scene/positionStaveBridgeLine2 penStyle dash;
+/ITL/scene/positionStaveBridgeLine2 penWidth 1.0;
+
+/ITL/scene/positionStaveValueLine2 set 'line' xy 2.258 0.0;
+/ITL/scene/positionStaveValueLine2 x 0.041;
+/ITL/scene/positionStaveValueLine2 y 0.262;
+/ITL/scene/positionStaveValueLine2 z 4.0;
+/ITL/scene/positionStaveValueLine2 penColor 102 45 145;
+/ITL/scene/positionStaveValueLine2 penAlpha 0;
+/ITL/scene/positionStaveValueLine2 penStyle solid;
+/ITL/scene/positionStaveValueLine2 penWidth 4.0;
+
+/ITL/scene/beater1 set "ellipse" 0.08 0.08;
+/ITL/scene/beater1 x -0.7;
+/ITL/scene/beater1 y -0.9;
+/ITL/scene/beater1 z 3.0;
+/ITL/scene/beater1 color 255 0 0 255;
+/ITL/scene/beater1 show 0;
+
+/ITL/scene/beater2 set "ellipse" 0.08 0.08;
+/ITL/scene/beater2 x -0.8;
+/ITL/scene/beater2 y -0.9;
+/ITL/scene/beater2 z 3.0;
+/ITL/scene/beater2 color 255 0 0 255;
+/ITL/scene/beater2 show 0;
+
+/ITL/scene/beater3 set "ellipse" 0.08 0.08;
+/ITL/scene/beater3 x -0.9;
+/ITL/scene/beater3 y -0.9;
+/ITL/scene/beater3 z 3.0;
+/ITL/scene/beater3 color 255 0 0 255;
+/ITL/scene/beater3 show 0;
+
+/ITL/scene/beater4 set "ellipse" 0.08 0.08;
+/ITL/scene/beater4 x -1.0;
+/ITL/scene/beater4 y -0.9;
+/ITL/scene/beater4 z 3.0;
+/ITL/scene/beater4 color 255 0 0 255;
+/ITL/scene/beater4 show 0;
+
+/ITL/scene/slaveBeat set 'ellipse' 0.02 0.02;
+/ITL/scene/slaveBeat color 200 0 0 200;
+/ITL/scene/slaveBeat z 2.0;
+/ITL/scene/sync slaveBeat stave syncOver;
+
+/ITL/scene/slaveFollow set 'rect' 0.01 0.5;
+/ITL/scene/slaveFollow color 0 100 0 100;
+/ITL/scene/slaveFollow z 2.0;
+/ITL/scene/sync slaveFollow stave syncOver;
+
+/ITL/scene/slaveStartMark set 'rect' 0.01 0.5;
+/ITL/scene/slaveStartMark color 204 102 255 100;
+/ITL/scene/slaveStartMark z 2.0;
+/ITL/scene/sync slaveStartMark stave syncOver;
+
+/ITL/scene/slaveBeat2 set 'ellipse' 0.02 0.02;
+/ITL/scene/slaveBeat2 color 200 0 0 200;
+/ITL/scene/slaveBeat2 z 2.0;
+/ITL/scene/sync slaveBeat2 stave2 syncOver;
+
+/ITL/scene/slaveFollow2 set 'rect' 0.01 0.5;
+/ITL/scene/slaveFollow2 color 0 100 0 100;
+/ITL/scene/slaveFollow2 z 2.0;
+/ITL/scene/sync slaveFollow2 stave2 syncOver;
+
+/ITL/scene/slaveStartMark2 set 'rect' 0.01 0.5;
+/ITL/scene/slaveStartMark2 color 204 102 255 100;
+/ITL/scene/slaveStartMark2 z 2.0;
+/ITL/scene/sync slaveStartMark2 stave2 syncOver;
+
+/ITL/scene/connect set txt "Connect";
+/ITL/scene/connect x 1.0;
+/ITL/scene/connect y -0.9;
+/ITL/scene/connect scale 1.5;
+/ITL/scene/connect color 0 0 0;
+/ITL/scene/connect z 2.0;
+/ITL/scene/connect watch mouseEnter ( /ITL/scene/connect color 255 0 0 );
+/ITL/scene/connect watch mouseDown  ( /ITL/scene/javascript run "sendHello()" );
+
+/ITL/scene/connectBox set rect 0.3 0.12;
+/ITL/scene/connectBox x 1.0;
+/ITL/scene/connectBox y -0.91;
+/ITL/scene/connectBox color 200 255 200;
+/ITL/scene/connectBox watch mouseEnter ( /ITL/scene/connect color 255 0 0 );
+/ITL/scene/connectBox watch mouseLeave ( /ITL/scene/connect color 0 0 0 );
+/ITL/scene/connectBox watch mouseDown  ( /ITL/scene/javascript run "sendHello()" );
+
+/ITL/scene/server set txt "Server: ";
+/ITL/scene/server x 0.77;
+/ITL/scene/server y -0.8;
+/ITL/scene/server scale 1.2;
+/ITL/scene/server color 0 0 0;
+
+/ITL/scene/serverAddr set txt "IP address";
+/ITL/scene/serverAddr x 1.0;
+/ITL/scene/serverAddr y -0.8;
+/ITL/scene/serverAddr z 2.0;
+/ITL/scene/serverAddr scale 1.2;
+/ITL/scene/serverAddr color 0 0 0;
+/ITL/scene/serverAddr watch newData (/ITL/scene/javascript run "onServerAddrChange('$(/ITL/scene/serverAddr get)')");
+
+/ITL/scene/serverAddrBox set rect 0.3 0.06;
+/ITL/scene/serverAddrBox x 1.0;
+/ITL/scene/serverAddrBox y -0.81;
+/ITL/scene/serverAddrBox color 230 230 230;
+/ITL/scene/serverAddrBox watch mouseEnter ( /ITL/scene/serverAddr color 255 0 0 );
+/ITL/scene/serverAddrBox watch mouseLeave ( /ITL/scene/serverAddr color 0 0 0 );
+/ITL/scene/serverAddrBox watch doubleClick ( /ITL/scene/serverAddr edit);
+
+/ITL/scene/selectPartLayer set layer;
+/ITL/scene/selectPartLayer z 5.0;
+/ITL/scene/selectPartLayer show 0;
+
+/ITL/scene/selectPartLayer/selectTxt set txt "Select Part: ";
+/ITL/scene/selectPartLayer/selectTxt x 0.0;
+/ITL/scene/selectPartLayer/selectTxt y -0.7;
+/ITL/scene/selectPartLayer/selectTxt z 7.0;
+/ITL/scene/selectPartLayer/selectTxt scale 3.0;
+
+/ITL/scene/selectPartLayer/selectTxtBox set 'rect' 1.0 2.0;
+/ITL/scene/selectPartLayer/selectTxtBox color 0 230 0 230;
+/ITL/scene/selectPartLayer/selectTxtBox x 0.0;
+/ITL/scene/selectPartLayer/selectTxtBox y -0.0;
+/ITL/scene/selectPartLayer/selectTxtBox z 6.0;
+
+# Violin 1
+/ITL/scene/instrumentSlot1 set txt "";
+/ITL/scene/instrumentSlot1 x -0.45;
+/ITL/scene/instrumentSlot1 y 0.88;
+/ITL/scene/instrumentSlot1 z 3.0;
+/ITL/scene/instrumentSlot1 scale 1.2;
+/ITL/scene/instrumentSlot1 color 100 100 100;
+/ITL/scene/instrumentSlot1 watch mouseDown  ( /ITL/scene/javascript run "selectInstrumentSlot(0)" );
+
+/ITL/scene/instrumentSlotBox1 set rect 0.20 0.10;
+/ITL/scene/instrumentSlotBox1 x -0.45;
+/ITL/scene/instrumentSlotBox1 y 0.87;
+/ITL/scene/instrumentSlotBox1 z 2.0;
+/ITL/scene/instrumentSlotBox1 color 200 200 200 100;
+/ITL/scene/instrumentSlotBox1 radius 20 20;
+/ITL/scene/instrumentSlotBox1 penWidth 0.0;
+/ITL/scene/instrumentSlotBox1 penColor 0 0 0 ;
+/ITL/scene/instrumentSlotBox1 watch mouseDown  ( /ITL/scene/javascript run "selectInstrumentSlot(0)" );
+
+# Violin 2
+/ITL/scene/instrumentSlot2 set txt "";
+/ITL/scene/instrumentSlot2 x -0.15;
+/ITL/scene/instrumentSlot2 y 0.88;
+/ITL/scene/instrumentSlot2 z 3.0;
+/ITL/scene/instrumentSlot2 scale 1.2;
+/ITL/scene/instrumentSlot2 color 100 100 100;
+/ITL/scene/instrumentSlot2 watch mouseDown  ( /ITL/scene/javascript run "selectInstrumentSlot(1)" );
+
+/ITL/scene/instrumentSlotBox2 set rect 0.20 0.10;
+/ITL/scene/instrumentSlotBox2 x -0.15;
+/ITL/scene/instrumentSlotBox2 y 0.87;
+/ITL/scene/instrumentSlotBox2 z 2.0;
+/ITL/scene/instrumentSlotBox2 color 200 200 200 100;
+/ITL/scene/instrumentSlotBox2 radius 20 20;
+/ITL/scene/instrumentSlotBox2 penWidth 0.0; 
+/ITL/scene/instrumentSlotBox2 penColor 0 0 0 ;
+/ITL/scene/instrumentSlotBox2 watch mouseDown  ( /ITL/scene/javascript run "selectInstrumentSlot(1)" );
+
+# Viola
+/ITL/scene/instrumentSlot3 set txt "";
+/ITL/scene/instrumentSlot3 x 0.15;
+/ITL/scene/instrumentSlot3 y 0.88;
+/ITL/scene/instrumentSlot3 scale 1.2;
+/ITL/scene/instrumentSlot3 color 100 100 100;
+/ITL/scene/instrumentSlot3 z 3.0;
+/ITL/scene/instrumentSlot3 watch mouseDown  ( /ITL/scene/javascript run "selectInstrumentSlot(2)" );
+
+/ITL/scene/instrumentSlotBox3 set rect 0.20 0.10;
+/ITL/scene/instrumentSlotBox3 x 0.15;
+/ITL/scene/instrumentSlotBox3 y 0.87;
+/ITL/scene/instrumentSlotBox3 z 2.0;
+/ITL/scene/instrumentSlotBox3 color 200 200 200 100;
+/ITL/scene/instrumentSlotBox1 radius 20 20;
+/ITL/scene/instrumentSlotBox3 penWidth 0.0; 
+/ITL/scene/instrumentSlotBox3 penColor 0 0 0 ;
+/ITL/scene/instrumentSlotBox3 watch mouseDown  ( /ITL/scene/javascript run "selectInstrumentSlot(2)" );
+
+# Cello
+/ITL/scene/instrumentSlot4 set txt "";
+/ITL/scene/instrumentSlot4 x 0.45;
+/ITL/scene/instrumentSlot4 y 0.88;
+/ITL/scene/instrumentSlot4 scale 1.2;
+/ITL/scene/instrumentSlot4 color 100 100 100;
+/ITL/scene/instrumentSlot4 z 3.0;
+/ITL/scene/instrumentSlot4 watch mouseDown  ( /ITL/scene/javascript run "selectInstrumentSlot(3)" );
+
+/ITL/scene/instrumentSlotBox4 set rect 0.20 0.10;
+/ITL/scene/instrumentSlotBox4 x 0.45;
+/ITL/scene/instrumentSlotBox4 y 0.87;
+/ITL/scene/instrumentSlotBox4 z 2.0;
+/ITL/scene/instrumentSlotBox4 color 200 200 200 100;
+/ITL/scene/instrumentSlotBox1 radius 20 20;
+/ITL/scene/instrumentSlotBox4 penWidth 0.0; 
+/ITL/scene/instrumentSlotBox4 penColor 0 0 0 ;
+/ITL/scene/instrumentSlotBox4 watch mouseDown  ( /ITL/scene/javascript run "selectInstrumentSlot(3)" );
+
+/ITL/scene/instSlotMask set rect 1.2 0.15;
+/ITL/scene/instSlotMask x 0.0;
+/ITL/scene/instSlotMask y 0.87;
+/ITL/scene/instSlotMask z 1.0;
+/ITL/scene/instSlotMask color 200 200 200 50;
+/ITL/scene/instSlotMask penWidth 1.0; 
+/ITL/scene/instSlotMask penColor 0 0 255 50;
+#/ITL/scene/instSlotMask watch mouseDown  ( /ITL/scene/javascript run "setInstrumentSlots('Cello, Violin1')" );
+#/ITL/scene/instSlotMask watch mouseDown  ( /ITL/scene/javascript run "resetInstrumentSlots()" );
+
+/ITL/scene/logger set txt "";
+/ITL/scene/logger x 0.0;
+/ITL/scene/logger y 0.95;
+/ITL/scene/logger scale 0.8;
+
+<? javascript
+//addInstrument("Cello");
+//addInstrument("Clarinet");
+//addInstrument("El Violin");
+//setInstruments("Cello, Clarinet,El Violin");
+//setTempo(120);
+//post(SCORE_SERVER_ADDR,"set","txt",SERVER_ADDRESS);
+?>

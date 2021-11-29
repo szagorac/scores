@@ -1,0 +1,14 @@
+Notation levels
+
+pitch
+dynamics
+pressure
+bow speed
+bow position
+
+
+bow position
+NOTATION STAVE
+bow pressure
+bow speed
+dynamics
