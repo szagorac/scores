@@ -3,14 +3,14 @@
 		"fileversion" : 1,
 		"appversion" : 		{
 			"major" : 8,
-			"minor" : 1,
-			"revision" : 11,
+			"minor" : 2,
+			"revision" : 1,
 			"architecture" : "x64",
 			"modernui" : 1
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 861.0, 79.0, 1908.0, 1221.0 ],
+		"rect" : [ 861.0, 87.0, 1908.0, 1221.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -47,6 +47,7 @@
 					"enablevscroll" : 0,
 					"id" : "obj-10",
 					"lockeddragscroll" : 0,
+					"lockedsize" : 0,
 					"maxclass" : "bpatcher",
 					"name" : "zsClick-bp.maxpat",
 					"numinlets" : 1,
@@ -483,6 +484,7 @@
 					"enablevscroll" : 0,
 					"id" : "obj-43",
 					"lockeddragscroll" : 0,
+					"lockedsize" : 0,
 					"maxclass" : "bpatcher",
 					"name" : "zsBufGroove-bp.maxpat",
 					"numinlets" : 4,
@@ -558,6 +560,7 @@
 					"enablevscroll" : 0,
 					"id" : "obj-55",
 					"lockeddragscroll" : 0,
+					"lockedsize" : 0,
 					"maxclass" : "bpatcher",
 					"name" : "zsBufGroove-bp.maxpat",
 					"numinlets" : 4,
@@ -579,6 +582,7 @@
 					"enablevscroll" : 0,
 					"id" : "obj-35",
 					"lockeddragscroll" : 0,
+					"lockedsize" : 0,
 					"maxclass" : "bpatcher",
 					"name" : "zsGigaverb-bp.maxpat",
 					"numinlets" : 10,
@@ -639,6 +643,7 @@
 					"enablevscroll" : 0,
 					"id" : "obj-19",
 					"lockeddragscroll" : 0,
+					"lockedsize" : 0,
 					"maxclass" : "bpatcher",
 					"name" : "zsMixer-bp.maxpat",
 					"numinlets" : 21,
@@ -662,6 +667,7 @@
 					"enablevscroll" : 0,
 					"id" : "obj-12",
 					"lockeddragscroll" : 0,
+					"lockedsize" : 0,
 					"maxclass" : "bpatcher",
 					"name" : "zsDelay-bp.maxpat",
 					"numinlets" : 2,
@@ -685,6 +691,7 @@
 					"enablevscroll" : 0,
 					"id" : "obj-5",
 					"lockeddragscroll" : 0,
+					"lockedsize" : 0,
 					"maxclass" : "bpatcher",
 					"name" : "zsFilterCtrl-bp.maxpat",
 					"numinlets" : 2,
@@ -720,6 +727,7 @@
 					"enablevscroll" : 0,
 					"id" : "obj-99",
 					"lockeddragscroll" : 0,
+					"lockedsize" : 0,
 					"maxclass" : "bpatcher",
 					"name" : "zsFilter-bp.maxpat",
 					"numinlets" : 8,
@@ -951,6 +959,7 @@
 					"enablevscroll" : 0,
 					"id" : "obj-96",
 					"lockeddragscroll" : 0,
+					"lockedsize" : 0,
 					"maxclass" : "bpatcher",
 					"name" : "zsBufGroove-bp.maxpat",
 					"numinlets" : 4,
@@ -972,8 +981,8 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 370.630444216247952, 370.5, 135.0, 22.0 ],
-					"text" : "UnionRose_b17.wav",
+					"patching_rect" : [ 370.630444216247952, 370.5, 113.0, 22.0 ],
+					"text" : "UnionRose_b1.wav",
 					"varname" : "b1File"
 				}
 
@@ -1028,6 +1037,7 @@
 					"enablevscroll" : 0,
 					"id" : "obj-50",
 					"lockeddragscroll" : 0,
+					"lockedsize" : 0,
 					"maxclass" : "bpatcher",
 					"name" : "zsBufGroove-bp.maxpat",
 					"numinlets" : 4,
@@ -1087,6 +1097,7 @@
 					"enablevscroll" : 0,
 					"id" : "obj-32",
 					"lockeddragscroll" : 0,
+					"lockedsize" : 0,
 					"maxclass" : "bpatcher",
 					"name" : "zsPlayCtrl-bp.maxpat",
 					"numinlets" : 6,
@@ -1110,6 +1121,7 @@
 					"enablevscroll" : 0,
 					"id" : "obj-31",
 					"lockeddragscroll" : 0,
+					"lockedsize" : 0,
 					"maxclass" : "bpatcher",
 					"name" : "zsGranulator-bp.maxpat",
 					"numinlets" : 8,
@@ -1165,6 +1177,18 @@
 					"presentation" : 1,
 					"presentation_rect" : [ 301.202265425282917, 13.0, 47.0, 32.0 ],
 					"saved_attribute_attributes" : 					{
+						"lcdcolor" : 						{
+							"expression" : ""
+						}
+,
+						"inactivelcdcolor" : 						{
+							"expression" : ""
+						}
+,
+						"lcdbgcolor" : 						{
+							"expression" : ""
+						}
+,
 						"valueof" : 						{
 							"parameter_enum" : [ "val1", "val2" ],
 							"parameter_longname" : "panicBtn",
@@ -1550,6 +1574,7 @@
 					"enablevscroll" : 0,
 					"id" : "obj-34",
 					"lockeddragscroll" : 0,
+					"lockedsize" : 0,
 					"maxclass" : "bpatcher",
 					"name" : "zsGrvCtrl-bp.maxpat",
 					"numinlets" : 10,
@@ -1573,6 +1598,7 @@
 					"enablevscroll" : 0,
 					"id" : "obj-53",
 					"lockeddragscroll" : 0,
+					"lockedsize" : 0,
 					"maxclass" : "bpatcher",
 					"name" : "zsMcGroove-bp.maxpat",
 					"numinlets" : 7,
@@ -3407,115 +3433,119 @@
 ,
 		"dependency_cache" : [ 			{
 				"name" : "zsPattrStore.json",
-				"bootpath" : "~/MyHome/Music/max/1_my/zscore",
+				"bootpath" : "~/MyHome/Dev/projects/github/scores/UnionRose/max",
 				"patcherrelativepath" : ".",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "zsMcGroove-bp.maxpat",
-				"bootpath" : "~/MyHome/Music/max/1_my/zscore",
+				"bootpath" : "~/MyHome/Dev/projects/github/scores/UnionRose/max",
 				"patcherrelativepath" : ".",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "zsGrvCtrl-bp.maxpat",
-				"bootpath" : "~/MyHome/Music/max/1_my/zscore",
+				"bootpath" : "~/MyHome/Dev/projects/github/scores/UnionRose/max",
 				"patcherrelativepath" : ".",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "zsLFO-bp.maxpat",
-				"bootpath" : "~/MyHome/Music/max/1_my/zscore",
+				"bootpath" : "~/MyHome/Dev/projects/github/scores/UnionRose/max",
 				"patcherrelativepath" : ".",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "zsMLFO-bp.maxpat",
-				"bootpath" : "~/MyHome/Music/max/1_my/zscore",
+				"bootpath" : "~/MyHome/Dev/projects/github/scores/UnionRose/max",
 				"patcherrelativepath" : ".",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "zsui.js",
-				"bootpath" : "~/MyHome/Music/max/1_my/zscore",
+				"bootpath" : "~/MyHome/Dev/projects/github/scores/UnionRose/max",
 				"patcherrelativepath" : ".",
 				"type" : "TEXT",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "zsGranulator-bp.maxpat",
-				"bootpath" : "~/MyHome/Music/max/1_my/zscore",
+				"bootpath" : "~/MyHome/Dev/projects/github/scores/UnionRose/max",
 				"patcherrelativepath" : ".",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "zsgran~.maxpat",
-				"bootpath" : "~/MyHome/Music/max/1_my/zscore",
+				"bootpath" : "~/MyHome/Dev/projects/github/scores/UnionRose/max",
 				"patcherrelativepath" : ".",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "zsPlayCtrl-bp.maxpat",
-				"bootpath" : "~/MyHome/Music/max/1_my/zscore",
+				"bootpath" : "~/MyHome/Dev/projects/github/scores/UnionRose/max",
 				"patcherrelativepath" : ".",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "zsBufGroove-bp.maxpat",
-				"bootpath" : "~/MyHome/Music/max/1_my/zscore",
+				"bootpath" : "~/MyHome/Dev/projects/github/scores/UnionRose/max",
 				"patcherrelativepath" : ".",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "zsFilter-bp.maxpat",
-				"bootpath" : "~/MyHome/Music/max/1_my/zscore",
+				"bootpath" : "~/MyHome/Dev/projects/github/scores/UnionRose/max",
 				"patcherrelativepath" : ".",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "zsFilterCtrl-bp.maxpat",
-				"bootpath" : "~/MyHome/Music/max/1_my/zscore",
+				"bootpath" : "~/MyHome/Dev/projects/github/scores/UnionRose/max",
 				"patcherrelativepath" : ".",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "zsDelay-bp.maxpat",
-				"bootpath" : "~/MyHome/Music/max/1_my/zscore",
+				"bootpath" : "~/MyHome/Dev/projects/github/scores/UnionRose/max",
 				"patcherrelativepath" : ".",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "zsMixer-bp.maxpat",
-				"bootpath" : "~/MyHome/Music/max/1_my/zscore",
+				"bootpath" : "~/MyHome/Dev/projects/github/scores/UnionRose/max",
 				"patcherrelativepath" : ".",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "zsGigaverb-bp.maxpat",
-				"bootpath" : "~/MyHome/Music/max/1_my/zscore",
+				"bootpath" : "~/MyHome/Dev/projects/github/scores/UnionRose/max",
 				"patcherrelativepath" : ".",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "zsClick-bp.maxpat",
-				"bootpath" : "~/MyHome/Music/max/1_my/zscore",
+				"bootpath" : "~/MyHome/Dev/projects/github/scores/UnionRose/max",
 				"patcherrelativepath" : ".",
 				"type" : "JSON",
 				"implicit" : 1
+			}
+, 			{
+				"name" : "mxj.mxo",
+				"type" : "iLaX"
 			}
  ],
 		"autosave" : 0,
