@@ -40,9 +40,18 @@ presets:
     ]
   - id: 0
     scripts: [
-        "webScore.setInstructions('get ready for','<span style=\\'color:blueviolet;\\'>Union Rose</span>', 'performance');"
+        "webScore.setInstructions('Get ready','','');"
     ]
   - id: 1
     scripts: [
         "webScore.resetState();",
+        "webScore.setInstructions('Preparing for the next','<span style=\\'color:blueviolet;\\'>Dialog</span>', '');"
+    ]
+  - id: 2
+    scripts: [
+        "webScore.reset(1);",
+    ]
+  - id: 3
+    scripts: [
+        "webScore.reset(1);",
     ]
