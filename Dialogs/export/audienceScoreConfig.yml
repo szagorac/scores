@@ -40,7 +40,7 @@ presets:
     ]
   - id: 0
     scripts: [
-        "webScore.setInstructions('Get ready','','');"
+        "webScore.setInstructions('Get ready','turn up the volume','');"
     ]
   - id: 1
     scripts: [
