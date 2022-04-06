@@ -3,7 +3,7 @@ rndStrategy:
   isActive: false
 builderStrategy:
   isActive: true
-  sections: [ pitch, rhythm ]
+  sections: [ pitch, rhythm, melody ]
   assignmentType: USER_ANY_FCFS
   isStopOnSectionEnd: true
   pageRanges:
@@ -12,6 +12,9 @@ builderStrategy:
       instruments: [ all ]
     - range: { start: 13, end: 24 }
       name: rhythm
+      instruments: [ all ]
+    - range: { start: 25, end: 36 }
+      name: melody
       instruments: [ all ]
 transpositionStrategy:
   isActive: true
@@ -54,6 +57,18 @@ transpositionStrategy:
     - { pageNo: 22, part: Present, textElements: [ { dx: 0, dy: 83.5, txt: C } ] }
     - { pageNo: 23, part: Present, textElements: [ { dx: 0, dy: 83.5, txt: C } ] }
     - { pageNo: 24, part: Present, textElements: [ { dx: 0, dy: 83.5, txt: C }, { dx: 145.5, dy: 71, txt: G }, { dx: 420, dy: 71, txt: G } ] }
+    - { pageNo: 25, part: Present, textElements: [ { dx: 31.5, dy: 71, txt: BF }, { dx: 31.5, dy: 83.5, txt: EF }, { dx: 206.5, dy: 81, txt: F }, { dx: 235.5, dy: 73, txt: A }, { dx: 31.5, dy: 83.5, txt: G }, { dx: 31.5, dy: 83.5, txt: E }, { dx: 31.5, dy: 83.5, txt: B }, { dx: 31.5, dy: 83.5, txt: D } ] }
+    - { pageNo: 26, part: Present, textElements: [ { dx: 0, dy: 83.5, txt: C } ] }
+    - { pageNo: 27, part: Present, textElements: [ { dx: 0, dy: 83.5, txt: C } ] }
+    - { pageNo: 28, part: Present, textElements: [ { dx: 0, dy: 83.5, txt: C } ] }
+    - { pageNo: 29, part: Present, textElements: [ { dx: 0, dy: 83.5, txt: C } ] }
+    - { pageNo: 30, part: Present, textElements: [ { dx: 0, dy: 83.5, txt: C } ] }
+    - { pageNo: 31, part: Present, textElements: [ { dx: 0, dy: 83.5, txt: C } ] }
+    - { pageNo: 32, part: Present, textElements: [ { dx: 0, dy: 83.5, txt: C } ] }
+    - { pageNo: 33, part: Present, textElements: [ { dx: 0, dy: 83.5, txt: C } ] }
+    - { pageNo: 34, part: Present, textElements: [ { dx: 0, dy: 83.5, txt: C } ] }
+    - { pageNo: 35, part: Present, textElements: [ { dx: 0, dy: 83.5, txt: C } ] }
+    - { pageNo: 36, part: Present, textElements: [ { dx: 0, dy: 83.5, txt: C }, { dx: 145.5, dy: 71, txt: G }, { dx: 420, dy: 71, txt: G } ] }
     - { pageNo: 1, part: Concur, textElements: [] }
     - { pageNo: 2, part: Concur, textElements: [ { dx: 0, dy: 113, txt: C }, { dx: 0, dy: 123, txt: G } ] }
     - { pageNo: 3, part: Concur, textElements: [ { dx: 0, dy: 113, txt: C }, { dx: 0, dy: 123, txt: G } ] }
