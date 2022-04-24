@@ -47,8 +47,29 @@ presets:
         "webScore.setInstructions('Preparing for the next','<span style=\\'color:blueviolet;\\'>Dialog</span>', '');"
     ]
   - id: 2
+    config:
+      - player: {
+        audioFiles: [
+            "/audio/DialogsPitch1-1.mp3",
+            "/audio/DialogsPitch1-2.mp3",
+            "/audio/DialogsPitch1-3.mp3",
+            "/audio/DialogsPitch2-1.mp3",
+            "/audio/DialogsPitch2-2.mp3",
+            "/audio/DialogsPitch2-3.mp3",
+            "/audio/DialogsPitch3-1.mp3",
+            "/audio/DialogsPitch3-2.mp3",
+            "/audio/DialogsPitch3-3.mp3"
+        ],
+        audioFilesIndexMap:  [
+          [],
+          [0, 1, 2],
+          [3, 4, 5],
+          [6, 7, 8]
+        ],
+      }
     scripts: [
         "webScore.reset(1);",
+        "webScore.sendAudioFileConfig();",
     ]
   - id: 3
     config:
