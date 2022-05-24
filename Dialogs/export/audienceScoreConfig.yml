@@ -51,17 +51,20 @@ presets:
         "webScore.reset(1);",
         "webScore.reset(1002);",
         "webScore.sendAudioFileConfig();",
+        "webScore.setSection('pitch');",
     ]
   - id: 3
     scripts: [
         "webScore.reset(1);",
         "webScore.reset(1003);",
+        "webScore.setSection('rhythm');",
         "webScore.sendAudioFileConfig();",
     ]
   - id: 4
     scripts: [
         "webScore.reset(1);",
         "webScore.reset(1004);",
+        "webScore.setSection('melody');",
         "webScore.sendAudioFileConfig();",
     ]
   - id: 1002
