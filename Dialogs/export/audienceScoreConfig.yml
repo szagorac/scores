@@ -51,24 +51,24 @@ presets:
         "webScore.reset(1);",
         "webScore.reset(1002);",
         "webScore.setSection('pitch');",
-        "webScore.activateViews('thumbs','meter','vote','audio');",
-        "webScore.deactivateViews('notes');",
+        "webScore.activateViews('thumbs','meter','vote');",
+        "webScore.deactivateViews('notes','audio');",
     ]
   - id: 3
     scripts: [
         "webScore.reset(1);",
         "webScore.reset(1003);",
         "webScore.setSection('rhythm');",
-        "webScore.activateViews('thumbs','meter','vote','audio');",
-        "webScore.deactivateViews('notes');",
+        "webScore.activateViews('thumbs','meter','vote');",
+        "webScore.deactivateViews('notes','audio');",
     ]
   - id: 4
     scripts: [
         "webScore.reset(1);",
         "webScore.reset(1004);",
         "webScore.setSection('melody');",
-        "webScore.activateViews('thumbs','meter','vote','audio');",
-        "webScore.deactivateViews('notes');",
+        "webScore.activateViews('thumbs','meter','vote');",
+        "webScore.deactivateViews('notes','audio');",
     ]
   - id: 1002
     config:
