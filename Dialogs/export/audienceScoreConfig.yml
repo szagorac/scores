@@ -70,6 +70,14 @@ presets:
         "webScore.activateViews('meter');",
         "webScore.deactivateViews('notes','audio','thumbs','vote');",
     ]
+  - id: 4
+    scripts: [
+        "webScore.reset(1);",
+        "webScore.reset(1005);",
+        "webScore.setSection('timbre');",
+        "webScore.activateViews('meter');",
+        "webScore.deactivateViews('notes','audio','thumbs','vote');",
+    ]
   - id: 1002
     config:
       - player: {
@@ -168,5 +176,15 @@ presets:
         [],
         [14,15],
         [16,17],
+      ],
+    }
+  - id: 1004
+    config:
+      - player: {
+      audioFiles: [
+          "/audio/DialogsTimbre2-1.wav",
+      ],
+      audioFilesIndexMap:  [
+        [],
       ],
     }
