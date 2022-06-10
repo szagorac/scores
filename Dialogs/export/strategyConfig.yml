@@ -1,4 +1,5 @@
 scoreName: "Dialogs"
+scoreTitle: "Socket Dialogues"
 rndStrategy:
   isActive: false
 builderStrategy:
