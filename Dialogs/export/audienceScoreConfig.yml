@@ -44,7 +44,7 @@ presets:
   - id: 1
     scripts: [
         "webScore.resetState();",
-        "webScore.setInstructions('Preparing for the next','<span style=\\'color:blueviolet;\\'>Dialog</span>', '');"
+        "webScore.setInstructions('Preparing for the next','<span style=\\'color:blueviolet;\\'>Dialogue</span>', '');"
     ]
   - id: 2
     scripts: [
