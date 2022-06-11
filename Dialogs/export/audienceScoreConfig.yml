@@ -78,6 +78,14 @@ presets:
         "webScore.activateViews('meter');",
         "webScore.deactivateViews('notes','audio','thumbs','vote');",
     ]
+  - id: 5
+    scripts: [
+        "webScore.reset(1);",
+        "webScore.reset(1006);",
+        "webScore.setSection('impro');",
+        "webScore.activateViews('meter');",
+        "webScore.deactivateViews('notes','audio','thumbs','vote');",
+    ]
   - id: 1002
     config:
       - player: {
@@ -217,3 +225,13 @@ presets:
         [ 17,18 ],
       ],
     }
+  - id: 1006
+    config:
+      - player: {
+        audioFiles: [
+            "/audio/DialogsImpro2-1.wav",
+        ],
+        audioFilesIndexMap:  [
+          [],
+        ],
+      }
