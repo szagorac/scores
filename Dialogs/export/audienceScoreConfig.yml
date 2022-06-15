@@ -229,7 +229,7 @@ presets:
     config:
       - player: {
         audioFiles: [
-            "/audio/DialogsImpro2-1.wav",
+            "/audio/DialogsTimbre2-1.wav",
         ],
         audioFilesIndexMap:  [
           [],
