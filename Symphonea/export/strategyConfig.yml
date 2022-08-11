@@ -1,0 +1,26 @@
+scoreName: "Symphonea"
+scoreTitle: "SymPhonea"
+rndStrategy:
+  isActive: false
+builderStrategy:
+  isActive: false
+transpositionStrategy:
+  isActive: true
+  topStaveYRef: 114
+  topStaveXRef: 80
+  topStaveStartX: 95
+  botStaveYRef: 335
+  botStaveXRef: 80
+  botStaveStartX: 95
+  extRectDx: -2
+  extRectDy: -7.5
+  extRectWidth: 13
+  extRectHeight: 13
+  extRectModWidth: 18
+  extRectModHeight: 13
+  minYdistance: 10
+  minXdistance: 7
+  pages:
+    - { pageNo: 1, part: Event1, textElements: [  ] }
+    - { pageNo: 1, part: Event2, textElements: [  ] }
+    - { pageNo: 1, part: Event3, textElements: [  ] }
