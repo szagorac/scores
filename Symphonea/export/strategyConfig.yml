@@ -21,6 +21,6 @@ transpositionStrategy:
   minYdistance: 10
   minXdistance: 7
   pages:
-    - { pageNo: 1, part: Event1, textElements: [  ] }
-    - { pageNo: 1, part: Event2, textElements: [  ] }
-    - { pageNo: 1, part: Event3, textElements: [  ] }
+    - { pageNo: 1, part: Part1, textElements: [  ] }
+    - { pageNo: 1, part: Part2, textElements: [  ] }
+    - { pageNo: 1, part: Part3, textElements: [  ] }
