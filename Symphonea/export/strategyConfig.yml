@@ -4,6 +4,19 @@ rndStrategy:
   isActive: false
 builderStrategy:
   isActive: false
+dynamicMovementStrategy:
+  isActive: true
+  isStopOnMovementEnd: true
+  parts: [ Part1, Part2, Part3 ]
+  movements:
+    - { name: Fast,
+        sections:
+          - { name: silent, range: { start: 1, end: 2 }, parts: [ Part1 ] }
+          - { name: silent2, range: { start: 1, end: 2 }, parts: [ Part1, Part2 ] }
+      }
+    - { name: Slow }
+    - { name: Joke }
+    - { name: Finally }
 transpositionStrategy:
   isActive: true
   topStaveYRef: 114
