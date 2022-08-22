@@ -11,23 +11,17 @@ dynamicMovementStrategy:
   movements:
     - { name: Fast,
         sections: [
-          { name: default, pageRange: { start: 1, end: 2 }, parts: [ Blue ] },
-          { name: a, pageRange: { start: 1, end: 2 }, parts: [ AV, Blue ], max: [ max1 ] },
-          { name: ap1, pageRange: { start: 1, end: 2 }, parts: [ AV, Blue ] },
-          { name: p1p2, pageRange: { start: 1, end: 2 }, parts: [ Blue, Red ] },
-          { name: ap1p2a1, pageRange: { start: 1, end: 2 }, parts: [ AV, Blue, Red ], web: [ w1 ] },
-          { name: a1p2a2, pageRange: { start: 1, end: 2 }, parts: [ AV, Blue, Red ], max: [ max2 ], web: [ w1, w2 ] },
+          { name: default, pageRange: { start: 3, end: 4 }, parts: [ Blue ] },
+          { name: a, pageRange: { start: 1, end: 2 }, parts: [ AV ], max: [ max1 ] },
         ]
       }
     - { name: Slow }
     - { name: Joke }
     - { name: Finally }
   maxConfigs:
-    - { id: max1, preset: 2, b1: file1, grn: file7, scripts: [ hello, there ] }
-    - { id: max2, preset: 3, b2: file2, grv: file4, scripts: [ hello, there ] }
+    - { id: max1, preset: 2, scripts: [ "setFile, b1, symphonea" ] }
   webConfigs:
     - { id: w1, preset: 5, scripts: [ "setValue(1,'strVal')", "setThis('another')" ] }
-    - { id: w2, preset: 8, scripts: [ "setValue(2,'strVal')", "setThis('test')" ] }
 transpositionStrategy:
   isActive: true
   topStaveYRef: 114
