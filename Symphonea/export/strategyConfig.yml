@@ -8,6 +8,7 @@ dynamicMovementStrategy:
   isActive: true
   isStopOnMovementEnd: true
   parts: [ Blue, Red, Green, AV ]
+  startPage: 3
   movements:
     - { name: Fast,
         sections: [
