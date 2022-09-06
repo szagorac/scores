@@ -12,17 +12,17 @@ dynamicMovementStrategy:
   movements:
     - { name: Fast,
         sections: [
-          { name: default, pageRange: { start: 3, end: 4 }, parts: [ Blue ] },
-          { name: 1m, pageRange: { start: 1, end: 2 }, parts: [ AV ], max: [ max1 ] },
-          { name: 1mb, pageRange: { start: 1, end: 2 }, parts: [ Blue, AV ], max: [ max2 ] },
-          { name: 1mr, pageRange: { start: 1, end: 2 }, parts: [ Red, AV ], max: [ max2 ] },
-          { name: 1mbr, pageRange: { start: 1, end: 2 }, parts: [ Blue, Red, AV ], max: [ max2 ] },
-          { name: 1b, pageRange: { start: 1, end: 2 }, parts: [ Blue ], max: [ max2 ] },
-          { name: 1r, pageRange: { start: 1, end: 2 }, parts: [ Red ], max: [ max2 ] },
-          { name: 1br, pageRange: { start: 1, end: 2 }, parts: [ Blue, Red ], max: [ max2 ] },
+          { name: default, pageRange: { start: 3, end: 4 }, parts: [ Blue ], isInterruptOnPageEnd: true  },
+          { name: 1m, pageRange: { start: 1, end: 2 }, parts: [ AV ], max: [ max1 ], isInterruptOnPageEnd: false },
+          { name: 1mb, pageRange: { start: 1, end: 2 }, parts: [ Blue, AV ], max: [ max2 ], isInterruptOnPageEnd: false },
+          { name: 1mr, pageRange: { start: 1, end: 2 }, parts: [ Red, AV ], max: [ max2 ], isInterruptOnPageEnd: false },
+          { name: 1mbr, pageRange: { start: 1, end: 2 }, parts: [ Blue, Red, AV ], max: [ max2 ], isInterruptOnPageEnd: false },
+          { name: 1b, pageRange: { start: 1, end: 2 }, parts: [ Blue ], max: [ max2 ], isInterruptOnPageEnd: false },
+          { name: 1r, pageRange: { start: 1, end: 2 }, parts: [ Red ], max: [ max2 ], isInterruptOnPageEnd: false },
+          { name: 1br, pageRange: { start: 1, end: 2 }, parts: [ Blue, Red ], max: [ max2 ], isInterruptOnPageEnd: false },
         ],
         sectionsOrder: [
-          [ 1m ], [ 1m, 1mb ], [ 1mb, 1mbr ], [ 1mbr ], [ 1b, 1r ], [ 1mbr ], [ default ]
+          [default], [ 1m ], [ 1m, 1mb ], [ 1mb, 1mbr ], [ 1mbr ], [ 1b, 1r ], [ 1mbr ], [ default ]
         ]
       }
     - { name: Slow }
