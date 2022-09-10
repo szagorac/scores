@@ -8,7 +8,7 @@ dynamicMovementStrategy:
   isActive: true
   isStopOnMovementEnd: true
   parts: [ Blue, Red, Green, AV ]
-  startPage: 3
+  scoreParts: [ Blue, Red, Green ]
   movements:
     - { name: Fast,
         sections: [
@@ -23,7 +23,8 @@ dynamicMovementStrategy:
         ],
         sectionsOrder: [
           [default], [ 1m ], [ 1m, 1mb ], [ 1mb, 1mbr ], [ 1mbr ], [ 1b, 1r ], [ 1mbr ], [ default ]
-        ]
+        ],
+        startPage: 3
       }
     - { name: Slow }
     - { name: Joke }
