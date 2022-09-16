@@ -12,7 +12,7 @@ dynamicMovementStrategy:
   movements:
     - { name: Fast,
         sections: [
-          { name: default, pageRange: { start: 3, end: 4 }, parts: [ Blue ], isInterruptOnPageEnd: true  },
+          { name: default, pageRange: { start: 3, end: 3 }, parts: [ ], isInterruptOnPageEnd: true  },
           { name: 1m, pageRange: { start: 1, end: 2 }, partsMovemen: [ AV ], max: [ max1 ], isInterruptOnPageEnd: false },
           { name: 1mb, pageRange: { start: 1, end: 2 }, parts: [ Blue, AV ], max: [ max2 ], isInterruptOnPageEnd: false },
           { name: 1mr, pageRange: { start: 1, end: 2 }, parts: [ Red, AV ], max: [ max2 ], isInterruptOnPageEnd: false },
