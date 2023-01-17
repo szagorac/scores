@@ -1,0 +1,8 @@
+Socket Dialogues
+Order:
+1) Melody
+2) Timbre
+3) Rhythm
+4) pitch
+5) Impro
+
