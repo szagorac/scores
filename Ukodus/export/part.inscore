@@ -1,6 +1,6 @@
 <? javascript
 
-var SERVER_ADDRESS = "192.168.0.13";
+var SERVER_ADDRESS = "127.0.0.1";
 var SERVER_PORT = "7777";
 
 var LOCAL_PORT = "7000";
