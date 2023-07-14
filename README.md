@@ -17,3 +17,9 @@ It is provided for information only as score as visualised on digital devices du
 
 Several [ZScore packages](https://bit.ly/zscorepackages), made for preformances of various scores, are available for
 download. Packages contain all necessary score files required for a performance.
+
+To use a package:
+
+- [download a required zip file](https://bit.ly/zscorepackages)
+- unzip it in any directory
+- follow included User Guide
