@@ -2,7 +2,7 @@
 
 This repository contains various scores written for the ZScore networked music composition and performance system. 
 Each directory is dedicated to a single score.
-ZScore code can be found in [szcore repository](../szcore).
+ZScore code can be found in [szcore repository](https://github.com/szagorac/szcore).
 
 The available data contains various materials used in pre-composition process, score configuration files, notation files and the distribution content.
 
